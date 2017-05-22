@@ -2,11 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>JSON Schema Viewer 0.3.3</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.css" />
         <link rel="stylesheet" href="styles/json-schema-viewer.min.css" />
-
+    <style>
+        li{
+            margin-bottom: 10px;
+        }
+    </style>
     </head>
     <body>
         <div id="loading">
@@ -19,14 +22,13 @@
             <div data-role="header" class="md-navbar">
                 <div data-role="controlgroup" data-type="horizontal" class="ui-btn-left">
                     <a class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" href="#info-panel" title="Toggle Info">Menu</a>
-                    <a class="ui-btn md-flex-btn ui-corner-all ui-icon-check ui-btn-icon-left" href="#validator-page" title="Go to Validator">Validator</a>
+
                     <!--<a href="#" class="ui-btn ui-btn-icon-right ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
                     <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>-->
 
                 </div>
-                <h1 id="viewer-title">JSON Schema Viewer<span class="schema-version"></span></h1>
+                <h1 id="viewer-title"><span class="schema-version"></span></h1>
                 <!-- <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel"  title="Toggle Help">Help</a> -->
-                <a data-rel="popup" data-role="none" data-position-to="window" class="ui-btn-right main-logo" href="#popup-welcome"  title="Show Info"></a>
             </div><!-- /header -->
             <div  role="main" class="ui-content" id="main-body">
                 <div id="zoom-controls">
@@ -65,10 +67,7 @@
                                 <a data-ajax="false" href="#info-tab-def">Definition</a>
 
                             </li>
-                            <li>
-                                <a data-ajax="false" href="#info-tab-example">Example</a>
 
-                            </li>
                             <li>
                                 <a data-ajax="false" href="#info-tab-schema">Schema</a>
 
@@ -86,14 +85,9 @@
                             Select a node to view the definition.
                         </p>
                         <hr />
-                        <h4>Translation:</h4>
-                        <p id="info-translation">
-                            Select a node to view the translation.
-                        </p>
-                    </div>
-                    <div class="ui-body-d ui-content info-tab"  id="info-tab-example">
-                        <p>
-                            Select a node to view the example.
+                        <h4>Enums:</h4>
+                        <p id="info-enums">
+                            Select a node to view the enums.
                         </p>
                     </div>
                     <div class="ui-body-d ui-content info-tab"  id="info-tab-schema">
@@ -159,64 +153,34 @@
         <div id="popup-welcome" data-role="popup" data-history="false" data-theme="a" data-overlay-theme="b">
             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
             <div data-role="header" data-theme="b">
-                <h1>JSON Schema Viewer</h1>
+                <h1>JSON Schema </h1>
             </div>
             <div class="ui-content">
                 <p>
-                    JavaScript tool for visualizing json-schemas.
+                    JavaScript tool for visualizing fhir data model.
                 </p>
-                <h3> Built using: </h3>
+                <h3> Choose one from following selectors</h3>
+
+                <hr />
+                <h3> Conformance: </h3>
                 <ul>
                     <li>
-                        <a href="http://d3js.org/">D3.js</a>
-                    </li>
-                    <li>
-                        <a href="http://jquery.com/">jQuery</a>
-                    </li>
-                    <li>
-                        <a href="http://jquerymobile.com/">jQuery Mobile</a>
-                    </li>
-                    <li>
-                        <a href="http://geraintluff.github.io/tv4/">tv4</a>
-                    </li>
-                    <li>
-                        <a href="http://bgrins.github.io/filereader.js/">FileReader.js</a>
-                    </li>
-                    <li>
-                        <a href="https://highlightjs.org/">highlight.js</a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/alexeykuzmin/jsonpointer.js">jsonpointer.js</a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/mhulse/grunt-html-boiler">Grunt HTML Boiler</a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/medialize/URI.js">URI.js</a>
+                        <ul><h4>Conformance</h4>
+                        <button>CapabilityStatement</button>
+                        <button>StructureDefinition</button>
+                        <button>ImplementationGuide</button>
+                        <button>SearchParameter</button>
+                        <button>MessageDefinition</button>
+                        <button>OperationDefinition</button>
+                        <button>CompartmentDefinition</button>
+                        <button>StructureMap</button>
+                        <button>GraphDefinition</button>
+                        <button>DataElement</button>
+                        </ul>
                     </li>
                 </ul>
-                <hr />
-                <h3> Features: </h3>
-                <ul>
-                    <li>
-                        <h4>Viewer</h4>
-                        <p>
-                            Interactive documentation tool for <a href="http://json-schema.org/">JSON schemas</a>.
-                            Utilizes the D3.js library to build a collapsible tree from the supplied schema(s).
-                        </p>
-                    </li>
-                    <li>
-                        <h4>JSON Validator</h4>
-                        <p>
-                            A tool to validate a json object using the supplied schema.
-                            Utilizes the tv4 library.
-                        </p>
-                    </li>
-                </ul>
-                <p>There's also a <a rel="external" href="./basic.html">basic example</a> without the jQuery Mobile interface elements.</p>
-                <hr />
-                <div id="welcome-footer">
-                    <a href="https://github.com/jlblcc/json-schema-viewer" class="ui-btn ui-btn-inline ui-icon-github ui-btn-icon-left">This project's on GitHub!</a>
+                <hr/>
+
                 </div>
             </div>
         </div>
@@ -225,5 +189,14 @@
         <script type="text/javascript" src="lib/preinit.js"></script>
         <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
         <script type='text/javascript' src="json-schema-viewer.min.js"></script>
+        <script type='text/javascript'>
+        var file;
+
+        $("button").click(function(){
+            file = ($(this).text());
+            var d = window.location,
+                e = JSV.schema ? JSV.schema : d.origin + d.pathname.substring(0, d.pathname.lastIndexOf("/") + 1) + "schemas/json-schema/" + file + ".schema.json";
+        })
+        </script>
     </body>
 </html>
