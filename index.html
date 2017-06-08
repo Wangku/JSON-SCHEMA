@@ -19,17 +19,17 @@
             </div>
         </div>
         <div class="ui-responsive-panel" data-role="page" id="viewer-page"  data-title="JSON Schema Viewer">
-            <div data-role="header" class="md-navbar">
+            <div data-role="header" class="md-navbar"><!-- /header -->
                 <div data-role="controlgroup" data-type="horizontal" class="ui-btn-left">
+                    <a class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" href="#list-panel" title="List Selection">List</a>
                     <a class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" href="#info-panel" title="Toggle Info">Menu</a>
 
                     <!--<a href="#" class="ui-btn ui-btn-icon-right ui-icon-plus ui-btn-icon-notext ui-corner-all">Zoom-in</a>
                     <a href="#" class="ui-btn ui-btn-icon-right ui-icon-minus ui-btn-icon-notext ui-corner-all">Zoom-out</a>-->
-
                 </div>
-                <h1 id="viewer-title"><span class="schema-version"></span></h1>
+                <h1></h1>
                 <!-- <a class="ui-btn-right ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="#help-panel"  title="Toggle Help">Help</a> -->
-            </div><!-- /header -->
+            </div>
             <div  role="main" class="ui-content" id="main-body">
                 <div id="zoom-controls">
                     <a id="zoom_in" href="#" class="ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all" title="Zoom In">Zoom-in</a>
@@ -47,7 +47,8 @@
                     <ul id="search-result" data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#search-input" data-inset="true"></ul>
                 </div>
             </div>
-            <div data-role="footer">
+
+            <div data-role="footer"><!-- /footer -->
                 <div id="schema-path" class="ui-content">
                     <a href="#permalink-popup" id="permalink" data-rel="popup">Select a Node</a>
                     <div data-role="popup" id="permalink-popup" class="ui-content" data-arrow="true">
@@ -55,12 +56,23 @@
                         <input type="text" id="sharelink" style="min-width:300px;" placeholder="Select a Node to create a permalink." value="" data-theme="a">
                     </div>
                 </div>
-            </div><!-- /footer -->
+            </div>
+
+            <div data-display="push" data-role="panel" id="list-panel" data-swipe-close=true>
+                <div data-role="header" data-theme='b' class='ui-mini'>
+                    <h1 id="list-title">List Selection</h1>
+                </div>
+                <input type="text" data-type="search" placeholder="Filter by name" id="search-list">
+                <ul id="search-result" data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#search-list" data-inset="true"></ul>
+
+                <div id="listbox" style="width:95%; height:90%; position:fixed; overflow-y:scroll"></div>
+
+            </div>
             <div data-display="push" data-role="panel" id="info-panel" data-swipe-close=false>
                 <div data-role="header" data-theme="b" class="ui-mini">
                     <h1 id="info-title">Info</h1>
                 </div>
-                <div data-role="tabs" id="info-tabs">
+                <div data-role="tabs" id="info-tabs" style="padding:.55em;margin-left:-0.2em">
                     <div data-role="navbar" id="info-tabs-navbar">
                         <ul>
                             <li>
@@ -97,12 +109,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="help-panel">
-            <div data-role="header" data-theme="b">
-            <h1 data-role="header">Help</h1>
-
-            </div>
-            </div> -->
         </div>
 
         <div data-role="page" id="validator-page"  data-title="JSON Validator">
@@ -150,53 +156,56 @@
             </p>
         </div>
 
-        <div id="popup-welcome" data-role="popup" data-history="false" data-theme="a" data-overlay-theme="b">
+        <!-- <div id="popup-welcome" data-role="popup" data-history="false" data-theme="a" data-overlay-theme="b">
             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
             <div data-role="header" data-theme="b">
                 <h1>JSON Schema </h1>
             </div>
             <div class="ui-content">
-                <p>
-                    JavaScript tool for visualizing fhir data model.
-                </p>
-                <h3> Choose one from following selectors</h3>
-
-                <hr />
-                <h3> Conformance: </h3>
-                <ul>
-                    <li>
-                        <ul><h4>Conformance</h4>
-                        <button>CapabilityStatement</button>
-                        <button>StructureDefinition</button>
-                        <button>ImplementationGuide</button>
-                        <button>SearchParameter</button>
-                        <button>MessageDefinition</button>
-                        <button>OperationDefinition</button>
-                        <button>CompartmentDefinition</button>
-                        <button>StructureMap</button>
-                        <button>GraphDefinition</button>
-                        <button>DataElement</button>
-                        </ul>
-                    </li>
-                </ul>
-                <hr/>
 
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script type="text/javascript" src="lib/preinit.js"></script>
         <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
         <script type='text/javascript' src="json-schema-viewer.min.js"></script>
         <script type='text/javascript'>
-        var file;
+        var allText, file;
 
         $("button").click(function(){
             file = ($(this).text());
             var d = window.location,
                 e = JSV.schema ? JSV.schema : d.origin + d.pathname.substring(0, d.pathname.lastIndexOf("/") + 1) + "schemas/json-schema/" + file + ".schema.json";
         })
+
+        function readTextFile(file){
+            var rawFile = new XMLHttpRequest();
+
+            rawFile.open("GET",file,false)
+            rawFile.onreadystatechange = function() {
+                if(rawFile.readyState === 4){
+                    if(rawFile.status === 200 || rawFile.status === 0 ){
+                        allText = rawFile.responseText;
+                    }
+                }
+            }
+            rawFile.send(null);
+        }
+
+        readTextFile("./schemas/json-schema/1.txt");
+
+        if(Text = allText.split("\n")) {
+            var f = $("<ul style='list-style:none; padding: 0 0'></ul>");
+            for (var i = 0; i < Text.length; i++) {
+                c =  $("<li></li>");
+                c.append($("<a href="+"#/"+Text[i]+">"+Text[i]+"</a>"));
+                f.append(c);
+            }
+        };
+        $("#listbox").html(f)
+
         </script>
     </body>
 </html>
