@@ -214,6 +214,14 @@
                 d = window.location;
                 JSV.schema = d.origin + d.pathname.substring(0, d.pathname.lastIndexOf("/") + 1) + "schemas/json-schema/" + $(this).text() + ".schema.json";
                 $("svg#jsv-tree").remove();
+                $("div#legend-items").find("svg").remove();
+                var b =  function() {
+                    if (window.jsvInitPath) {
+                        var c = JSV.expandNodePath(window.jsvInitPath.split("-"));
+                        JSV.flashNode(c), JSV.clickTitle(c)
+                    } else JSV.resetViewer()
+                }
+                JSV.createDiagram(b);
 
             })
         });
